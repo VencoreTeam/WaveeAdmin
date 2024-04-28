@@ -179,6 +179,26 @@ function removeVerifiedUser() {
   });
 }
 
+function updateUserId() {
+  rl.question('Enter the User ID of the user whose ID you want to change:\x20', userId => {
+    rl.question('Enter the New User ID:\x20', newUserId => {
+      admin.auth().updateUser(userId, { uid: newUserId })
+        .then(userRecord => {
+          console.log(yellowStyle + 'User ID updated successfully:' + resetStyle);
+          console.log(boldStyle + 'User Record:' + resetStyle);
+          console.log(userRecord.toJSON());
+          rl.close();
+        })
+        .catch(error => {
+          console.error(boldStyle + 'Error updating user ID:' + resetStyle, error);
+          rl.close();
+        });
+    });
+  });
+}
+
+
+
 rl.question('Enter Action Number (e.g. 1 for Change Username):\x20', action => {
   switch (action) {
     case '1':
@@ -204,6 +224,9 @@ rl.question('Enter Action Number (e.g. 1 for Change Username):\x20', action => {
       break;
     case '8':
       removeVerifiedUser();
+      break;
+      case '9':
+      updateUserId();
       break;
     case 'Q':
       rl.close();
