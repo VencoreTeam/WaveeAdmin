@@ -1,14 +1,14 @@
 let admin = require("firebase-admin");
 
 // config
-let email = "XXX";
+let email = "treasphonemail@gmail.com";
 let serviceAccountData = require("XXX.json");
 let adminConfig = {
     credential: admin.credential.cert(serviceAccountData),
-    databaseURL: "https://XXX.firebaseio.com",
+    databaseURL: "https://waveev2-68ecb-default-rtdb.firebaseio.com/",
 };
 let newUserOverrides = {
-    uid: "XXX",
+    uid: "1",
 };
 
 Start();
