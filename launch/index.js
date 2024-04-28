@@ -30,6 +30,7 @@ console.log(`  ${yellowStyle}5${resetStyle}.\x20Search\x20For\x20a\x20User`);
 console.log(`  ${yellowStyle}6${resetStyle}.\x20List\x20Users`);
 console.log(`  ${yellowStyle}7${resetStyle}.\x20Add\x20Verified\x20User`);
 console.log(`  ${yellowStyle}8${resetStyle}.\x20Remove\x20Verified\x20User`);
+console.log(`  ${yellowStyle}9${resetStyle}.\x20Change\x20a\x20User's\x20ID`);
 console.log(`  ${yellowStyle}Q${resetStyle}.\x20Quit\x0a`);
 
 function updatePassword() {
