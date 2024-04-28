@@ -4,7 +4,7 @@ const serviceAccount = require('./fffyggghiii.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://wavee-9124f-default-rtdb.firebaseio.com/'
+  databaseURL: 'https://waveev2-68ecb-default-rtdb.firebaseio.com/'
 });
 
 const rl = readline.createInterface({
