@@ -18,21 +18,34 @@ const yellowStyle = '\x1b[33m';
 const bgBlueStyle = '\x1b[44m';
 const redStyle = '\x1b[31m';
 const greenStyle = '\x1b[32m';
+const underlineStyle = '\x1b[4m';
+
+// ASCII Art for Header
+const header = `
+${bgBlueStyle}${boldStyle}######################################################${resetStyle}
+${bgBlueStyle}${boldStyle}#                                                    #${resetStyle}
+${bgBlueStyle}${boldStyle}#          WAVEE ADMIN COMMAND PANEL (v1)            #${resetStyle}
+${bgBlueStyle}${boldStyle}#                                                    #${resetStyle}
+${bgBlueStyle}${boldStyle}######################################################${resetStyle}
+`;
+
+const menu = `
+${boldStyle}${underlineStyle}Admin Actions:${resetStyle}
+  ${yellowStyle}1${resetStyle}. Change User's Username
+  ${yellowStyle}2${resetStyle}. Change a User's Email
+  ${yellowStyle}3${resetStyle}. Change a User's Password
+  ${yellowStyle}4${resetStyle}. Disable/Undisable Account
+  ${yellowStyle}5${resetStyle}. Search For a User
+  ${yellowStyle}6${resetStyle}. List Users
+  ${yellowStyle}7${resetStyle}. Add Verified User
+  ${yellowStyle}8${resetStyle}. Remove Verified User
+  ${yellowStyle}Q${resetStyle}. Quit
+`;
 
 console.clear();
 
-console.log();
-console.log(`${bgBlueStyle}${boldStyle}WAVEE ADMIN COMMAND PANEL (v1)${resetStyle}\n`);
-console.log(`${boldStyle}Admin Actions:${resetStyle}`);
-console.log(`  ${yellowStyle}1${resetStyle}. Change User's Username`);
-console.log(`  ${yellowStyle}2${resetStyle}. Change a User's Email`);
-console.log(`  ${yellowStyle}3${resetStyle}. Change a User's Password`);
-console.log(`  ${yellowStyle}4${resetStyle}. Disable/Undisable Account`);
-console.log(`  ${yellowStyle}5${resetStyle}. Search For a User`);
-console.log(`  ${yellowStyle}6${resetStyle}. List Users`);
-console.log(`  ${yellowStyle}7${resetStyle}. Add Verified User`);
-console.log(`  ${yellowStyle}8${resetStyle}. Remove Verified User`);
-console.log(`  ${yellowStyle}Q${resetStyle}. Quit\n`);
+console.log(header);
+console.log(menu);
 
 function updatePassword() {
   rl.question(`${boldStyle}Enter the User ID of the user whose password you want to update:${resetStyle} `, userId => {
