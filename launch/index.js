@@ -1,6 +1,7 @@
 const admin = require('firebase-admin');
 const readline = require('readline');
 const serviceAccount = require('./fffyggghiii.json');
+const process = require('process');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -19,6 +20,14 @@ const bgBlueStyle = '\x1b[44m';
 const redStyle = '\x1b[31m';
 const greenStyle = '\x1b[32m';
 const underlineStyle = '\x1b[4m';
+
+// Function to center text
+function centerText(text) {
+  const terminalWidth = process.stdout.columns;
+  const textLength = text.replace(/\x1b\[[0-9;]*m/g, '').length; // Remove ANSI escape codes
+  const padding = Math.max((terminalWidth - textLength) / 2, 0);
+  return ' '.repeat(padding) + text;
+}
 
 // ASCII Art for Header
 const header = `
@@ -44,8 +53,8 @@ ${boldStyle}${underlineStyle}Admin Actions:${resetStyle}
 
 console.clear();
 
-console.log(header);
-console.log(menu);
+header.split('\n').forEach(line => console.log(centerText(line)));
+menu.split('\n').forEach(line => console.log(centerText(line)));
 
 function updatePassword() {
   rl.question(`${boldStyle}Enter the User ID of the user whose password you want to update:${resetStyle} `, userId => {
@@ -55,11 +64,11 @@ function updatePassword() {
           console.log(`${greenStyle}Password updated successfully:${resetStyle}`);
           console.log(`${boldStyle}User Record:${resetStyle}`);
           console.log(userRecord.toJSON());
-          rl.close();
+          showMenu();
         })
         .catch(error => {
           console.error(`${redStyle}Error updating password:${resetStyle}`, error);
-          rl.close();
+          showMenu();
         });
     });
   });
@@ -73,11 +82,11 @@ function updateEmail() {
           console.log(`${greenStyle}Email updated successfully:${resetStyle}`);
           console.log(`${boldStyle}User Record:${resetStyle}`);
           console.log(userRecord.toJSON());
-          rl.close();
+          showMenu();
         })
         .catch(error => {
           console.error(`${redStyle}Error updating email:${resetStyle}`, error);
-          rl.close();
+          showMenu();
         });
     });
   });
@@ -92,16 +101,16 @@ function toggleAccountStatus() {
           .then(() => {
             const action = !isDisabled ? 'disabled' : 'undisabled';
             console.log(`${greenStyle}User's account ${action} successfully:${resetStyle}`);
-            rl.close();
+            showMenu();
           })
           .catch(error => {
             console.error(`${redStyle}Error updating account status:${resetStyle}`, error);
-            rl.close();
+            showMenu();
           });
       })
       .catch(error => {
         console.error(`${redStyle}Error getting user:${resetStyle}`, error);
-        rl.close();
+        showMenu();
       });
   });
 }
@@ -114,11 +123,11 @@ function changeUsername() {
           console.log(`${greenStyle}Username updated successfully:${resetStyle}`);
           console.log(`${boldStyle}User Record:${resetStyle}`);
           console.log(userRecord.toJSON());
-          rl.close();
+          showMenu();
         })
         .catch(error => {
           console.error(`${redStyle}Error updating username:${resetStyle}`, error);
-          rl.close();
+          showMenu();
         });
     });
   });
@@ -138,11 +147,11 @@ function listUsers() {
         console.log(`Account Status: ${user.disabled ? 'Disabled' : 'Active'}`);
         console.log('---------------------------------------');
       });
-      rl.close();
+      showMenu();
     })
     .catch(error => {
       console.error(`${redStyle}Error listing users:${resetStyle}`, error);
-      rl.close();
+      showMenu();
     });
 }
 
@@ -156,11 +165,11 @@ function searchUserByUID() {
         console.log(`Signup Date: ${userData.metadata.creationTime}`);
         console.log(`Latest Login Date: ${userData.metadata.lastSignInTime}`);
         console.log(`Account Status: ${userData.disabled ? 'Disabled' : 'Active'}`);
-        rl.close();
+        showMenu();
       })
       .catch(error => {
         console.error(`${redStyle}Error getting user:${resetStyle}`, error);
-        rl.close();
+        showMenu();
       });
   });
 }
@@ -174,7 +183,7 @@ function addVerifiedUser() {
       } else {
         console.log(`${greenStyle}User ${username} successfully added to verified users.${resetStyle}`);
       }
-      rl.close();
+      showMenu();
     });
   });
 }
@@ -188,42 +197,49 @@ function removeVerifiedUser() {
       } else {
         console.log(`${greenStyle}User ${username} successfully removed from verified users.${resetStyle}`);
       }
-      rl.close();
+      showMenu();
     });
   });
 }
 
-rl.question(`${boldStyle}Enter Action Number (e.g. 1 for Change Username):${resetStyle} `, action => {
-  switch (action) {
-    case '1':
-      changeUsername();
-      break;
-    case '2':
-      updateEmail();
-      break;
-    case '3':
-      updatePassword();
-      break;
-    case '4':
-      toggleAccountStatus();
-      break;
-    case '5':
-      searchUserByUID();
-      break;
-    case '6':
-      listUsers();
-      break;
-    case '7':
-      addVerifiedUser();
-      break;
-    case '8':
-      removeVerifiedUser();
-      break;
-    case 'Q':
-      rl.close();
-      break;
-    default:
-      console.log(`${redStyle}Invalid action. Please enter a valid action number.${resetStyle}`);
-      rl.close();
-  }
-});
+function showMenu() {
+  console.clear();
+  header.split('\n').forEach(line => console.log(centerText(line)));
+  menu.split('\n').forEach(line => console.log(centerText(line)));
+  rl.question(`${boldStyle}Enter Action Number (e.g. 1 for Change Username):${resetStyle} `, action => {
+    switch (action) {
+      case '1':
+        changeUsername();
+        break;
+      case '2':
+        updateEmail();
+        break;
+      case '3':
+        updatePassword();
+        break;
+      case '4':
+        toggleAccountStatus();
+        break;
+      case '5':
+        searchUserByUID();
+        break;
+      case '6':
+        listUsers();
+        break;
+      case '7':
+        addVerifiedUser();
+        break;
+      case '8':
+        removeVerifiedUser();
+        break;
+      case 'Q':
+        rl.close();
+        break;
+      default:
+        console.log(`${redStyle}Invalid action. Please enter a valid action number.${resetStyle}`);
+        showMenu();
+    }
+  });
+}
+
+showMenu();
